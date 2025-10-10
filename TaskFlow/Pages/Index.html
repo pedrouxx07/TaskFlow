@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow — Tarefas</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <header class="topo">
+    <h1 class="logo">TaskFlow</h1>
+    <div class="usuario">
+      <span id="nome-usuario"></span>
+      <button id="tema-toggle">🌓</button>
+    </div>
+  </header>
+
+  <nav class="menu-lateral">
+    <a href="index.html" class="ativo">📋 Tarefas</a>
+    <a href="Concluidas.html">✅ Concluídas</a>
+    <a href="Configurações.html">⚙️ Configurações</a>
+  </nav>
+
+  <main class="conteudo">
+    <section class="painel-esquerdo">
+      <h2>Suas Tarefas</h2>
+      <ul id="lista-tarefas" class="lista-tarefas"></ul>
+    </section>
+
+    <aside class="painel-direito">
+      <div class="grafico-progresso">
+        <svg viewBox="0 0 36 36">
+          <path class="fundo" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 
+            a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          <path class="progresso" id="progresso-barra"
+            stroke-dasharray="0, 100" 
+            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 
+            a 15.9155 15.9155 0 0 1 0 -31.831"/>
+        </svg>
+        <p id="porcentagem-progresso">0%</p>
+      </div>
+
+      <div class="mensagem-motivacional" id="mensagem-motivacional">
+        “O sucesso é feito de pequenas vitórias.”
+      </div>
+    </aside>
+
+    <button id="botao-adicionar" class="botao-flutuante">+</button>
+  </main>
+
+  <div id="modal-tarefa" class="modal">
+    <div class="modal-conteudo">
+      <h3>Nova Tarefa</h3>
+      <input type="text" id="titulo-tarefa" placeholder="Título da tarefa" />
+      <textarea id="descricao-tarefa" placeholder="Descrição (opcional)"></textarea>
+      <select id="prioridade-tarefa">
+        <option value="baixa">Baixa</option>
+        <option value="media">Média</option>
+        <option value="alta">Alta</option>
+      </select>
+      <button id="salvar-tarefa">Salvar</button>
+      <button id="cancelar-tarefa" class="cancelar">Cancelar</button>
+    </div>
+  </div>
+
+  <script src="../script.js"></script>
+</body>
+</html>
