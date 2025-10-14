@@ -1,0 +1,123 @@
+/* style.css — TaskFlow Premium Clean (glassmorphism + theme)
+   Coloque na pasta raiz (TaskFlow/style.css)
+*/
+
+/* Fonte */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root{
+  --bg: #F5F7FB;
+  --panel: rgba(255,255,255,0.6);
+  --panel-border: rgba(255,255,255,0.45);
+  --text: #14213d;
+  --muted: #6b7280;
+  --primary: #6C63FF; /* roxo moderno */
+  --success: #22C55E;
+  --danger: #EF4444;
+  --glass-blur: 10px;
+  --card-shadow: 0 10px 30px rgba(18,24,35,0.06);
+  --radius: 14px;
+  --trans: 0.28s;
+}
+
+body.escuro {
+  --bg: linear-gradient(180deg,#0f1724,#0b1220);
+  --panel: rgba(20,22,30,0.56);
+  --panel-border: rgba(255,255,255,0.04);
+  --text: #E6EEF8;
+  --muted: #9AA4B2;
+  --primary: #7366ff;
+  --card-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--text);-webkit-font-smoothing:antialiased;}
+
+/* topo */
+.topo{
+  position:fixed;left:0;right:0;top:0;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;
+  background:var(--panel);backdrop-filter:blur(var(--glass-blur));
+  border-bottom:1px solid var(--panel-border);z-index:60;
+}
+.logo{font-weight:700;color:var(--primary);font-size:20px}
+.saudacao{font-size:13px;color:var(--muted);margin-top:4px}
+.top-left{display:flex;flex-direction:column}
+.top-right{display:flex;align-items:center;gap:8px}
+
+/* menu lateral */
+.menu-lateral{
+  position:fixed;top:68px;left:16px;width:200px;height:calc(100% - 88px);display:flex;flex-direction:column;gap:8px;padding:12px;
+  background:transparent;border-radius:12px;
+}
+.menu-lateral a{display:block;padding:10px 12px;color:var(--muted);text-decoration:none;border-radius:10px;font-weight:600;transition:all var(--trans)}
+.menu-lateral a.ativo{background:linear-gradient(90deg, rgba(108,99,255,0.12), rgba(124,88,240,0.06));color:var(--primary)}
+.menu-lateral a:hover{transform:translateX(6px);color:var(--primary)}
+
+/* main layout */
+.conteudo{margin-left:240px;margin-top:88px;padding:28px;display:grid;grid-template-columns:1fr 340px;gap:24px;min-height:calc(100vh - 88px)}
+.painel-glass{background:var(--panel);border-radius:var(--radius);padding:18px;border:1px solid var(--panel-border);box-shadow:var(--card-shadow);backdrop-filter:blur(var(--glass-blur));transition:all var(--trans)}
+.col-esquerda{display:flex;flex-direction:column;gap:12px}
+.col-direita{}
+
+
+/* painel esquerda */
+.painel-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}
+.controls{display:flex;gap:8px;align-items:center}
+.controls input[type=search]{padding:8px 10px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);min-width:220px;background:transparent;color:var(--text)}
+.controls select{padding:8px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:transparent;color:var(--text)}
+.btn.small{padding:6px 8px;font-size:13px}
+
+/* lista tarefas */
+.lista-tarefas{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.tarefa{display:flex;flex-direction:column;gap:8px;padding:14px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.55),rgba(255,255,255,0.45));box-shadow:var(--card-shadow);border-left:6px solid transparent;transition:transform .18s ease, box-shadow .18s ease}
+.tarefa:hover{transform:translateY(-6px)}
+.tarefa h3{margin:0;font-size:15px;color:var(--primary)}
+.tarefa p{margin:0;color:var(--muted);font-size:13px}
+.tarefa .meta{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--muted)}
+
+.prioridade-alta{border-left-color:var(--danger)}
+.prioridade-media{border-left-color:var(--primary)}
+.prioridade-baixa{border-left-color:var(--success)}
+
+/* actions row */
+.row-actions{display:flex;gap:8px;margin-top:8px;justify-self:flex-end}
+.icon-btn{border:none;background:transparent;cursor:pointer;padding:8px;border-radius:8px;font-size:15px}
+.user-btn{background:linear-gradient(90deg,var(--primary), #8b7bff);border:none;color:white;padding:8px 12px;border-radius:10px;font-weight:700;cursor:default}
+.btn{border:0;padding:8px 12px;border-radius:10px;background:rgba(0,0,0,0.06);cursor:pointer}
+.btn.primary{background:linear-gradient(90deg,var(--primary), #8b7bff);color:white}
+.btn.danger{background:linear-gradient(90deg,#ff6b6b,#ef4444);color:white}
+
+/* painel direito */
+.card-progresso{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px;border-radius:12px}
+#pctProgresso{font-weight:700;color:var(--primary)}
+.card-motivacao{padding:14px;border-radius:10px}
+.lista-urgentes{list-style:none;padding-left:12px;color:var(--danger);font-weight:600}
+
+/* botao flutuante */
+.btn-flutuante{position:fixed;right:36px;bottom:36px;width:64px;height:64px;border-radius:50%;border:none;background:linear-gradient(90deg,var(--primary), #8b7bff);color:white;font-size:28px;box-shadow:0 12px 30px rgba(108,99,255,0.22);cursor:pointer;z-index:70;display:flex;align-items:center;justify-content:center}
+.btn-flutuante:hover{transform:scale(1.05)}
+
+/* modal */
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.4);z-index:120}
+.modal-card{width:420px;background:var(--panel);padding:16px;border-radius:12px;border:1px solid var(--panel-border);backdrop-filter:blur(var(--glass-blur));}
+.modal-top{display:flex;justify-content:space-between;align-items:center}
+.modal-body{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.modal-body input,.modal-body textarea,.modal-body select{padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:transparent;color:var(--text)}
+.modal-actions{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
+
+/* confetti canvas */
+.confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:200}
+
+/* concluídas */
+.tarefa.concluida{opacity:0.7;background:linear-gradient(180deg,rgba(0,0,0,0.03),rgba(0,0,0,0.02));text-decoration:line-through;color:var(--muted)}
+
+/* configs */
+.caixa-config{margin-bottom:12px;display:flex;flex-direction:column;gap:8px}
+.vazio{text-align:center;color:var(--muted);padding:18px}
+
+/* responsive */
+@media (max-width:980px){
+  .conteudo{grid-template-columns:1fr; margin-left:0;padding:16px}
+  .menu-lateral{position:static;width:100%;height:auto;display:flex;flex-direction:row;gap:8px}
+  .btn-flutuante{right:18px;bottom:18px}
+}
