@@ -1,21 +1,15 @@
-/* script.js — TaskFlow Premium Clean
-   Coloque na raiz TaskFlow/script.js
-   Lida com as 3 páginas (index, concluidas, configuracoes)
-*/
 
-/* ---------- Storage keys ---------- */
 const KEY = "taskflow_v2_data";
 const KEY_USER = "taskflow_v2_user";
 const KEY_THEME = "taskflow_v2_theme";
 
-/* ---------- State ---------- */
+
 let state = {
   tasks: [], // {id,title,description,priority,category,createdAt,concluded,doneAt}
   user: {name: ""},
   theme: "claro"
 };
 
-/* ---------- Init ---------- */
 function loadState(){
   try {
     const raw = localStorage.getItem(KEY);
@@ -33,13 +27,11 @@ function saveState(){
   localStorage.setItem(KEY_THEME, state.theme);
 }
 
-/* ---------- Utils ---------- */
 const genId = ()=> Date.now() + Math.floor(Math.random()*999);
 const niceDate = d => { if(!d) return "—"; try{ return new Date(d).toLocaleDateString('pt-BR'); }catch{ return d } };
 const esc = s => String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
 const byId = id => document.getElementById(id);
 
-/* ---------- Theme & user ---------- */
 function applyTheme(){
   document.body.classList.remove("claro","escuro");
   document.body.classList.add(state.theme === "escuro" ? "escuro" : "claro");
@@ -59,7 +51,6 @@ function saudacao(){
   return "Boa noite";
 }
 
-/* ---------- Rendering dashboard ---------- */
 function renderDashboard(){
   const listEl = byId("listaTarefas");
   if(!listEl) return;
@@ -97,7 +88,6 @@ function renderDashboard(){
     });
   }
 
-  // attach listeners
   listEl.querySelectorAll(".btn-done").forEach(b=> b.onclick = e => {
     const id = Number(b.dataset.id); concludeTask(id);
   });
@@ -114,7 +104,6 @@ function renderDashboard(){
   updateUserButtons();
 }
 
-/* ---------- Render concluded ---------- */
 function renderConcluded(){
   const listEl = byId("listaConcluidas");
   if(!listEl) return;
@@ -150,7 +139,6 @@ function renderConcluded(){
   });
 }
 
-/* ---------- Progress & urgentes ---------- */
 function renderProgress(){
   const canvas = byId("canvasProgress");
   if(!canvas) return;
@@ -165,7 +153,6 @@ function renderProgress(){
   ctx.strokeStyle = '#e6e6e6';
   ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke();
 
-  // animated arc
   const start = -Math.PI/2;
   const end = start + (Math.PI*2)*(pct/100);
   // gradient stroke
@@ -180,7 +167,6 @@ function renderProgress(){
   if(meta) meta.innerText = `${done} de ${total} concluídas`;
 }
 
-/* urgent tasks (due soon) — here as example based on createdAt proximity */
 function renderUrgents(){
   const list = byId("listaUrgentes");
   if(!list) return;
@@ -189,7 +175,6 @@ function renderUrgents(){
   list.innerHTML = urg.length ? urg.map(u=>`<li>${esc(u.title)}</li>`).join("") : "<li>Sem urgentes</li>";
 }
 
-/* ---------- CRUD ---------- */
 function addTask(obj){
   const t = {
     id: genId(),
@@ -237,7 +222,6 @@ function removeTask(id){
   renderAll();
 }
 
-/* ---------- Modal (add/edit) ---------- */
 let editingId = null;
 function openAddModal(){
   editingId = null;
@@ -261,7 +245,6 @@ function openEditModal(id){
   m.style.display = "flex"; m.setAttribute("aria-hidden","false");
 }
 
-/* ---------- UI helpers: toast & small animations ---------- */
 function toast(msg, time=2800){
   const n = document.createElement("div"); n.className="toast"; n.innerText = msg;
   Object.assign(n.style,{position:'fixed',right:'20px',bottom:'20px',background:'#222',color:'#fff',padding:'10px 14px',borderRadius:'10px',zIndex:9999,opacity:0});
@@ -277,7 +260,6 @@ function toastAnim(type){
   btn.animate([{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],{duration:420});
 }
 
-/* ---------- Confetti (simple) ---------- */
 let confettiCtx, confettiCanvas, confettiPieces=[];
 function setupConfetti(){
   confettiCanvas = byId("confettiCanvas");
@@ -324,7 +306,6 @@ function playConfetti(){
   requestAnimationFrame(frame);
 }
 
-/* ---------- Motivate rotate ---------- */
 const phrases = [
   "O sucesso é feito de pequenas vitórias.",
   "Uma tarefa por vez — você consegue.",
@@ -338,7 +319,6 @@ function rotateMotivation(){
   el.innerText = phrases[Math.floor(Math.random()*phrases.length)];
 }
 
-/* ---------- Export / Import ---------- */
 function exportJSON(){
   const blob = new Blob([JSON.stringify(state.tasks,null,2)],{type:'application/json'});
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'taskflow_tasks.json'; a.click();
@@ -359,7 +339,6 @@ function importJSON(file){
   r.readAsText(file);
 }
 
-/* ---------- Edit/save modal wiring ---------- */
 function wireModal(){
   const modal = byId("modal");
   if(modal){
@@ -382,9 +361,7 @@ function wireModal(){
   }
 }
 
-/* ---------- Edit hooks on list (open edit) - already done in renderDashboard via openEditModal  ---------- */
 
-/* ---------- Helpers UI ---------- */
 function updateUserButtons(){
   document.querySelectorAll('.user-btn').forEach(b => {
     if(b) b.innerText = state.user && state.user.name ? state.user.name : "Você";
@@ -392,7 +369,6 @@ function updateUserButtons(){
   const s = byId("saudacao"); if(s) s.innerText = `${saudacao()}, ${state.user.name || "Você"}`;
 }
 
-/* ---------- shortcuts ---------- */
 function setupShortcuts(){
   document.addEventListener('keydown', (e)=>{
     if(e.key.toLowerCase() === 'n' && !isInputFocused()) openAddModal();
@@ -405,7 +381,6 @@ function isInputFocused(){
   return ['INPUT','TEXTAREA','SELECT'].includes(el.tagName);
 }
 
-/* ---------- Focus mode (highlight first pending or selected) ---------- */
 let focusMode = false;
 function toggleFocusMode(){
   focusMode = !focusMode;
@@ -425,7 +400,6 @@ function toggleFocusMode(){
   }
 }
 
-/* ---------- small UI icons as inline SVGs ---------- */
 function svgIcon(name){
   const icons = {
     check: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#0f1724" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
@@ -436,7 +410,6 @@ function svgIcon(name){
   return icons[name] || '';
 }
 
-/* ---------- Render all based on page ---------- */
 function renderAll(){
   renderDashboard();
   renderConcluded();
@@ -444,7 +417,6 @@ function renderAll(){
   updateUserButtons();
 }
 
-/* ---------- init wiring ---------- */
 document.addEventListener("DOMContentLoaded", ()=>{
   loadState();
   if(!state.user || !state.user.name) {
@@ -457,7 +429,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
   wireModal();
   setupShortcuts();
 
-  // page detection
   const path = location.pathname.split("/").pop();
   if(path === "" || path === "index.html") {
     // dashboard wiring
@@ -468,13 +439,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
     byId("btnModoFoco")?.addEventListener("click", toggleFocusMode);
     byId("modalClose")?.addEventListener("click", ()=>{ byId("modal").style.display='none' });
     byId("salvarBtn")?.addEventListener("click", ()=>{ /* handled in wireModal */ });
-    // modal inputs handled by wireModal
   }
   if(path === "concluidas.html"){
     byId("btnTema")?.addEventListener("click", toggleTheme);
   }
   if(path === "configuracoes.html"){
-    // config wiring
     byId("btnTema")?.addEventListener("click", toggleTheme);
     byId("btnSalvarNome")?.addEventListener("click", ()=>{
       const v = byId("inputNomeConfig").value.trim();
@@ -493,12 +462,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
     });
   }
 
-  // universal update
   updateUserButtons();
   rotateMotivation();
   setInterval(rotateMotivation, 9000);
   renderAll();
 });
 
-/* Polyfills for older browsers */
 function byIdSafe(id){ return document.getElementById(id); }
