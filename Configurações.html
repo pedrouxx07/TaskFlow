@@ -1,1 +1,65 @@
 
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TaskFlow — Configurações</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script defer src="../script.js"></script>
+</head>
+<body>
+  <header class="topo">
+    <div class="top-left">
+      <div class="logo">TaskFlow</div>
+    </div>
+    <div class="top-right">
+      <button id="btnTema" class="icon-btn">🌓</button>
+      <button id="btnUsuario" class="user-btn"></button>
+    </div>
+  </header>
+
+  <nav class="menu-lateral">
+    <a href="index.html">📋 Tarefas</a>
+    <a href="Concluidas.html">✅ Concluídas</a>
+    <a href="Configurações.html" class="ativo">⚙️ Configurações</a>
+  </nav>
+
+  <main class="conteudo">
+    <section class="col-esquerda painel-glass">
+      <h2>Configurações</h2>
+
+      <div class="caixa-config">
+        <label>Nome do usuário</label>
+        <input id="inputNomeConfig" type="text" placeholder="Seu nome">
+        <button id="btnSalvarNome" class="btn">Salvar nome</button>
+      </div>
+
+      <div class="caixa-config">
+        <label>Tema</label>
+        <div style="display:flex;gap:8px;">
+          <button id="temaClaro" class="btn">Claro</button>
+          <button id="temaEscuro" class="btn">Escuro</button>
+        </div>
+      </div>
+
+      <div class="caixa-config">
+        <label>Dados</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button id="btnExport" class="btn">Exportar (.json)</button>
+          <input id="fileImport" type="file" accept="application/json" style="display:none"/>
+          <button id="btnImport" class="btn">Importar (.json)</button>
+          <button id="btnReset" class="btn danger">Resetar tudo</button>
+        </div>
+      </div>
+
+      <div class="caixa-config">
+        <label>Preferências</label>
+        <div class="muted">Atalhos: N (nova), T (tema), F (foco)</div>
+      </div>
+
+    </section>
+  </main>
+</body>
+</html>
